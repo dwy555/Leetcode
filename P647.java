@@ -2,20 +2,18 @@
 class Solution {
     int count = 0;
     public int countSubstrings(String s) {
-        
-        for(int i = 0; i < s.length()-1; i++){
-            palindromic(s,i,i);
-            palindromic(s,i,i+1);
+        for(int i = 0; i < s.length(); i++){
+            isPalindromic(i,i,s);
+            isPalindromic(i,i+1,s);
         }
-        
-        return count+1;
+        return count;
     }
     
-    
-    public void palindromic(String s, int i, int j){
-        if(i >= 0 && j < s.length() && s.charAt(i) == s.charAt(j)){
-            count ++;
-            palindromic(s, i-1, j+1);
+    private void isPalindromic(int left, int right, String s){
+        if(left < 0 || right >= s.length())return;
+        if(s.charAt(left) == s.charAt(right)){
+            count += 1;
+            isPalindromic(left-1,right+1,s);
         }
     }
 }
