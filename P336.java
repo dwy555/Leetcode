@@ -1,31 +1,28 @@
 // No.336. Palindrome Pairs
 class Solution {
     public List<List<Integer>> palindromePairs(String[] words) {
-        List<List<Integer>> ans = new LinkedList<>();
-        if(words == null)return ans;
+        Set<List<Integer>> ans = new HashSet<>();
         Map<String,Integer> map = new HashMap<>();
         for(int i = 0; i < words.length; i++)
-            map.put(words[i],i);
-        for(int i = 0; i < words.length; i++){
-            int l = 0, r = 0;
-            while(l <= r){
-                String sub = words[i].substring(l,r);
-                Integer j = map.get(new StringBuilder(sub).reverse().toString());
-                if(j != null && i!= j && isPali(words[i].substring(l==0?r:0, l==0?words[i].length():l)))
-                    ans.add(Arrays.asList(l == 0? new Integer[]{i,j}:new Integer[]{j,i}));
-                if(r < words[i].length())r++;
-                else l++;
+            map.put(words[i], i);
+        for(int j = 0; j < words.length; j++){
+            for(int i = 0; i < words[j].length()+1; i++){
+                String s = new StringBuilder(words[j].substring(0,i)).reverse().toString();
+                StringBuilder sb = new StringBuilder(words[j]).append(s);
+                if(sb.toString().equals(sb.reverse().toString())){
+                    if(map.containsKey(s) && map.get(s) != j){
+                        ans.add(Arrays.asList(j,map.get(s)));
+                    }
+                }
+                s = new StringBuilder(words[j].substring(words[j].length()-i)).reverse().toString();
+                StringBuilder sb2 = new StringBuilder(s).append(words[j]);
+                if(sb2.toString().equals(sb2.reverse().toString())){
+                    if(map.containsKey(s) && map.get(s) != j){
+                        ans.add(Arrays.asList(map.get(s),j));
+                    }
+                }
             }
         }
-        return ans;
-    }
-    
-    private boolean isPali(String s){
-        int l = 0, r = s.length()-1;
-        while(l < r){
-            if(s.charAt(l) != s.charAt(r))return false;
-            l++;r--;
-        }
-        return true;
+        return new ArrayList<>(ans);
     }
 }
