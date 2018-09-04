@@ -12,11 +12,9 @@ class Solution {
         if(num == 0)return "";
         for(int i = start; i < nums.length; i ++){
             if(num/nums[i] != 0){
-                int pre = num/nums[i];
-                int rear = num%nums[i];
-                if(num >= 100)ans += toWords(pre,strs,nums,i+1)+" ";
+                if(num >= 100)ans += toWords(num/nums[i],strs,nums,i+1)+" ";
                 ans += strs[i];
-                String r = toWords(rear,strs,nums,i+1);
+                String r = toWords(num%nums[i],strs,nums,i+1);
                 if(!"".equals(r))ans += " "+r;
                 return ans;
             }
