@@ -10,16 +10,16 @@
 public class Solution {
     public RandomListNode copyRandomList(RandomListNode head) {
         Map<RandomListNode, RandomListNode> map = new HashMap<>();
-        RandomListNode node = head;
-        while(node != null){
-            map.put(node, new RandomListNode(node.label));
-            node = node.next;
+        RandomListNode p = head;
+        while(p != null){
+            map.put(p, new RandomListNode(p.label));
+            p = p.next;
         }
-        node = head;
-        while(node != null){
-            map.get(node).next = map.get(node.next);
-            map.get(node).random = map.get(node.random);
-            node = node.next;
+        p = head;
+        while(p != null){
+            map.get(p).next = map.get(p.next);
+            map.get(p).random = map.get(p.random);
+            p = p.next;
         }
         return map.get(head);
     }
