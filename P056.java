@@ -1,4 +1,3 @@
-// No.56 Merge Intervals
 /**
  * Definition for an interval.
  * public class Interval {
@@ -10,27 +9,26 @@
  */
 class Solution {
     public List<Interval> merge(List<Interval> intervals) {
-        ArrayList<Interval> ans = new ArrayList<Interval>();
-        int size = intervals.size();
-        if(size < 1)return ans;
-        if(size == 1)return intervals;
+        List<Interval> ans = new ArrayList<Interval>();
         Collections.sort(intervals, new Comparator<Interval>(){
-            public int compare(Interval i1, Interval i2){
-                return i1.start - i2.start;
+            public int compare(Interval a, Interval b){
+                return a.start - b.start;
             }
         });
-        
-        for(int i = 0; i < size-1; i ++){
-            Interval cur = intervals.get(i);
-            Interval next = intervals.get(i+1);
-            if(cur.end < next.start){
-                ans.add(cur);
+        if(intervals.size() == 0)return ans;
+        int start = intervals.get(0).start, end = intervals.get(0).end;
+        for(int i = 1; i < intervals.size(); i++){
+            Interval curr = intervals.get(i);
+            if(end < curr.start){
+                ans.add(new Interval(start, end));
+                start = curr.start;
+                end = curr.end;
             }else{
-                next.start = Math.min(cur.start, next.start);
-                next.end = Math.max(cur.end, next.end);
+                start = Math.min(start, curr.start);
+                end = Math.max(end, curr.end);
             }
         }
-        ans.add(intervals.get(size - 1));
+        ans.add(new Interval(start, end));
         return ans;
     }
 }
